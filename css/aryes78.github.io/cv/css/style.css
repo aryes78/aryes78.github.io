@@ -1,0 +1,56 @@
+p,li,h2,h3,h4 {
+  font-family: 'Josefin Sans', sans-serif;
+  color: #222;
+}
+.header, blockquote{
+  font-family: 'Abril Fatface', sans-serif;
+  color: #222;
+  font-size: 40px;
+}
+blockquote{
+  position: relative;
+  background-color: #222;
+  color: white;
+  padding: 40px;
+}
+blockquote::before {
+  content: '”';
+  /* then the styling */
+  position: absolute;
+  top: -20px;
+  left: 5px;
+  font-size: 100px;
+}
+
+.header{
+  position: relative;
+}
+img{
+  width: 100%;
+}
+li{
+  list-style-type: square;
+}
+#title{
+  position: absolute;
+  bottom: 10px;
+  left: 150px;
+  font-size: 50px;
+  width: 100%;
+  
+}
+#title::first-line{
+  font-size: 30px;
+}
+#main{
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.subtitles{
+  font-family: 'Merriweather', sans-serif;
+  font-style: italic;
+  font-size: 15px;
+}
+h2{
+  text-transform: uppercase;
+}
