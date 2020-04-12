@@ -2,6 +2,9 @@ p,li,h2,h3,h4 {
   font-family: 'Josefin Sans', sans-serif;
   color: #222;
 }
+body{
+  margin: 0;
+}
 #menu{
   position: fixed;
   top: 0px;
