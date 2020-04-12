@@ -95,4 +95,6 @@ h2{
 .anchor{
   position: relative;
   top: -60px;
+  display: block;
+  visibility: hidden;
 }
