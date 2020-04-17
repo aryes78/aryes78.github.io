@@ -43,3 +43,7 @@ $('body').mouseup(function () {
     $("#todo").focus();
 });
 
+$(function() {
+    $( "ul" ).sortable();
+    $( "ul" ).disableSelection();
+  });
