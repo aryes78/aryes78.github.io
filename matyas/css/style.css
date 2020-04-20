@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'ProseAntique';
+    src: local('ProseAntique'),
+        url('../res/ProseAntique.woff2') format('woff2'),
+        url('../res/ProseAntique.woff') format('woff'),
+        url('../res/ProseAntique.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} 
+p{
+    font-family: 'ProseAntique';
+    font-weight: bold;
+    font-size: 20pt;
+}
