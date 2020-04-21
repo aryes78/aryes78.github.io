@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="css/style.css">
     <title>Mátyás társasjáték</title>
 </head>
@@ -12,7 +12,33 @@
 <body>
     <main>
         <section class="tartalom">
-            <p>Árvíztűrő tükörfúrógép</p>
+            <header>Mátyás társasjáték</header>
+            <!-- Tab links -->
+            <div class="tab">
+                <button class="tablinks" onclick="openPlayer(event, 'kapitany')" id="defaultOpen"><img src="res/kapitany_small.png" alt="Kapitány" srcset=""></button>
+                <button class="tablinks" onclick="openPlayer(event, 'gyogyito')"><img src="res/gyogyito_small.png" alt="Gyógyító" srcset=""></button>
+                <button class="tablinks" onclick="openPlayer(event, 'ersek')"><img src="res/ersek_small.png" alt="Érsek" srcset=""></button>
+                <button class="tablinks" onclick="openPlayer(event, 'nador')"><img src="res/nador_small.png" alt="Nádor" srcset=""></button>
+            </div>
+
+            <!-- Tab content -->
+            <div id="kapitany" class="tabcontent">
+                <h3>Kapitány</h3>
+                <p>Ez a Kapitány oldala</p>
+            </div>
+            <div id="gyogyito" class="tabcontent">
+                <h3>Gyógyító</h3>
+                <p>Ez a Gyógyító oldala</p>
+            </div>
+            <div id="ersek" class="tabcontent">
+                <h3>Érsek</h3>
+                <p>Ez a Érsek oldala</p>
+            </div>
+            <div id="nador" class="tabcontent">
+                <h3>Nádor</h3>
+                <p>Ez a Nádor oldala</p>
+            </div>
+
 
         </section>
     </main>
