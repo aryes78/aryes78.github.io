@@ -22,12 +22,20 @@ body{
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    width: 434px;
+    width: 100%;
     box-sizing: border-box;
   }
-  
+  body {
+    width: 700px;
+  }
+  @media only screen and (max-width: 700px) {
+    body {
+      width: 100%;
+    }
+  }
   /* Style the buttons that are used to open the tab content */
-  .tab button {
+
+  .tab img{
     background-color: inherit;
     float: left;
     border: none;
@@ -35,16 +43,23 @@ body{
     cursor: pointer;
     padding: 4px 4px;
     transition: 0.3s;
+    width: 25%;
+    /* max-width: 100%; */
+    height: auto;
+    box-sizing: border-box;
+    opacity: 50%;
   }
   
   /* Change background color of buttons on hover */
-  .tab button:hover {
+  .tab img:hover {
     background-color: #ddd;
+    opacity: 100%;
   }
   
   /* Create an active/current tablink class */
-  .tab button.active {
+  .tab img.active {
     background-color: #ccc;
+    opacity: 100%;
   }
   
   /* Style the tab content */
@@ -54,7 +69,7 @@ body{
     border: 1px solid #ccc;
     border-top: none;
     animation: fadeEffect 0.3s; /* Fading effect takes 1 second */
-    width: 434px;
+    width: 100%;
     box-sizing: border-box;
   }
   
@@ -68,5 +83,5 @@ body{
       text-align: center;
       color: #aaa;
       padding-bottom: 10px;
-      width: 434px;
+      width: 100%;
   }
