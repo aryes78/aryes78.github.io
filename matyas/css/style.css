@@ -119,7 +119,7 @@ body{
     right: 10px;
   }
   .results{
-    width: 100%;
+    /* width: 50%; */
   }
   .minus{
     position: absolute;
