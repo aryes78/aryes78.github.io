@@ -48,6 +48,7 @@ function minus(t_id){
 }
 
 // $('#defaultOpen').click();
+document.getElementById('defaultOpen').click();
 $('.plus').click(function (e) { 
   plus(e);
   
