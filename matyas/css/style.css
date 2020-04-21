@@ -22,7 +22,7 @@ body{
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    width: 530px;
+    width: 440px;
     box-sizing: border-box;
   }
   
@@ -33,7 +33,7 @@ body{
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: 4px 4px;
     transition: 0.3s;
   }
   
@@ -54,7 +54,7 @@ body{
     border: 1px solid #ccc;
     border-top: none;
     animation: fadeEffect 0.3s; /* Fading effect takes 1 second */
-    width: 530px;
+    width: 440px;
     box-sizing: border-box;
   }
   
@@ -68,5 +68,5 @@ body{
       text-align: center;
       color: #aaa;
       padding-bottom: 10px;
-      width: 530px;
+      width: 440px;
   }
