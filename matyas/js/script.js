@@ -1,3 +1,8 @@
+let jatekosok = ['kapitany','gyogyito','ersek','nador'];
+let telepulesek = ['jt','falu','var'];
+let termeles = ['norm','arany'];
+let allapot = ['egs','bet'];
+
 function openPlayer(evt, playerName) {
     // Declare all variables
     var i, tabcontent, tablinks;
@@ -17,6 +22,12 @@ function openPlayer(evt, playerName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(playerName).style.display = "block";
     evt.currentTarget.className += " active";
+
   } 
 
 $('#defaultOpen').click();
+
+
+jatekosok.forEach((ja) => {
+  console.log(ja);
+});
