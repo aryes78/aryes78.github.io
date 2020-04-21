@@ -15,10 +15,10 @@
             <header>Mátyás társasjáték</header>
             <!-- Tab links -->
             <div class="tab">
-               <img src="res/kapitany.jpg" alt="Kapitány" srcset="" class="tablinks" onclick="openPlayer(event, 'kapitany')" id="defaultOpen">
-               <img src="res/gyogyito.jpg" alt="Gyógyító" srcset="" class="tablinks" onclick="openPlayer(event, 'gyogyito')">
-               <img src="res/ersek.jpg" alt="Érsek" srcset="" class="tablinks" onclick="openPlayer(event, 'ersek')">
-               <img src="res/nador.jpg" alt="Nádor" srcset="" class="tablinks" onclick="openPlayer(event, 'nador')">
+               <img src="res/kapitany.jpg" alt="Kapitány" class="tablinks" onclick="openPlayer(event, 'kapitany')" id="defaultOpen">
+               <img src="res/gyogyito.jpg" alt="Gyógyító" class="tablinks" onclick="openPlayer(event, 'gyogyito')">
+               <img src="res/ersek.jpg" alt="Érsek" class="tablinks" onclick="openPlayer(event, 'ersek')">
+               <img src="res/nador.jpg" alt="Nádor" class="tablinks" onclick="openPlayer(event, 'nador')">
             </div>
 
             <!-- Tab content -->
@@ -30,13 +30,13 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/jobbagytelek.png" alt="" srcset=""></td>
-                                <td>20</td>
-                                <td>10</td>
+                                <td><img src="res/jobbagytelek.png" alt=""></td>
+                                <td><div class="minus" id="kapitany_jt_norm_egs_dec">&ndash;</div><span id="kapitany_jt_norm_egs">10</span><div class="plus" id="kapitany_jt_norm_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_jt_norm_bet_dec">&ndash;</div><span id="kapitany_jt_norm_bet">10</span><div class="plus" id="kapitany_jt_norm_bet_inc">+</div></td>
                             </tr>
 
                         </table>
@@ -46,13 +46,13 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/jobbagytelek.png" alt="" srcset=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
-                                <td>2</td>
-                                <td>1</td>
+                                <td><img src="res/jobbagytelek.png" alt=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
+                                <td><div class="minus" id="kapitany_jt_arany_egs_dec">&ndash;</div><span id="kapitany_jt_arany_egs">10</span><div class="plus" id="kapitany_jt_arany_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_jt_arany_bet_dec">&ndash;</div><span id="kapitany_jt_arany_bet">10</span><div class="plus" id="kapitany_jt_arany_bet_inc">+</div></td>
                             </tr>
                         </table>                        
                     </div>
@@ -60,13 +60,14 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/falu.png" alt="" srcset=""></td>
-                                <td>20</td>
-                                <td>10</td>
+                                <td><img src="res/falu.png" alt=""></td>
+                                <td><div class="minus" id="kapitany_falu_norm_egs_dec">&ndash;</div><span id="kapitany_falu_norm_egs">10</span><div class="plus" id="kapitany_falu_norm_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_falu_norm_bet_dec">&ndash;</div><span id="kapitany_falu_norm_bet">10</span><div class="plus" id="kapitany_falu_norm_bet_inc">+</div></td>
+
                             </tr>
 
                         </table>
@@ -76,13 +77,13 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/falu.png" alt="" srcset=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
-                                <td>2</td>
-                                <td>1</td>
+                                <td><img src="res/falu.png" alt=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
+                                <td><div class="minus" id="kapitany_falu_arany_egs_dec">&ndash;</div><span id="kapitany_falu_arany_egs">10</span><div class="plus" id="kapitany_falu_arany_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_falu_arany_bet_dec">&ndash;</div><span id="kapitany_falu_arany_bet">10</span><div class="plus" id="kapitany_falu_arany_bet_inc">+</div></td>
                             </tr>
                         </table>                        
                     </div>
@@ -90,13 +91,13 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/var.png" alt="" srcset=""></td>
-                                <td>20</td>
-                                <td>10</td>
+                                <td><img src="res/var.png" alt=""></td>
+                                <td><div class="minus" id="kapitany_var_norm_egs_dec">&ndash;</div><span id="kapitany_var_norm_egs">10</span><div class="plus" id="kapitany_var_norm_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_var_norm_bet_dec">&ndash;</div><span id="kapitany_var_norm_bet">10</span><div class="plus" id="kapitany_var_norm_bet_inc">+</div></td>
                             </tr>
 
                         </table>
@@ -106,23 +107,23 @@
                         <table>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td><img src="res/jarvany.png" alt="" srcset=""></td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td><img src="res/jarvany.png" alt="" style="width: 80%; height: auto;"></td>
                             </tr>
                             <tr>
-                                <td><img src="res/var.png" alt="" srcset=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
-                                <td>2</td>
-                                <td>1</td>
+                                <td><img src="res/var.png" alt=""><img src="res/aranybanya.png" alt="" class="aranybanya"></td>
+                                <td><div class="minus" id="kapitany_var_arany_egs_dec">&ndash;</div><span id="kapitany_var_arany_egs">10</span><div class="plus" id="kapitany_var_arany_egs_inc">+</div></td>
+                                <td><div class="minus" id="kapitany_var_arany_bet_dec">&ndash;</div><span id="kapitany_var_arany_bet">10</span><div class="plus" id="kapitany_var_arany_bet_inc">+</div></td>
                             </tr>
                         </table>                        
                     </div>
                     <div class="results">
                         <table>
                             <tr>
-                                <td><img src="res/termeny.png" alt="" srcset=""></td>
-                                <td>=&nbsp;22</td>
-                                <td><img src="res/arany.png" alt="" srcset=""></td>
-                                <td>=&nbsp;10</td>
+                                <td><img src="res/termeny.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td>=&nbsp;<span id="kapitany_termeny">22</span></td>
+                                <td><img src="res/arany.png" alt="" style="width: 80%; height: auto;"></td>
+                                <td>=&nbsp;<span id="kapitany_arany">11</span></td>
                             </tr>
                         </table>
                     </div>
