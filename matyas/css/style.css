@@ -12,10 +12,13 @@ body{
     /* font-weight: bold; */
     /* font-size: 20pt; */
     background: url('../res/background.jpg');
-    background-size: 100% auto;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-clip: inherit;
     height: 100%;
+    width: 720px;
+    margin: 0px;
+    padding: 0px;
 }
  /* Style the tab */
  .tab {
@@ -25,12 +28,7 @@ body{
     width: 100%;
     box-sizing: border-box;
   }
-  body {
-    width: 700px;
-    margin: 0px;
-    padding: 0px;
-  }
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 720px) {
     body {
       width: 100%;
     }
@@ -67,7 +65,7 @@ body{
   /* Style the tab content */
   .tabcontent {
     display: none;
-    padding: 6px 12px;
+    padding: 0px;
     border: 1px solid #ccc;
     border-top: none;
     animation: fadeEffect 0.3s; /* Fading effect takes 1 second */
@@ -86,4 +84,40 @@ body{
       color: #aaa;
       padding-bottom: 10px;
       width: 100%;
+  }
+  .container{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  table tr td{
+    width: 100px;
+    height: 100px;
+    position: relative;
+    font-size: 50px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table{
+    
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+  }
+  .tbox{
+    
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+  }
+  .aranybanya{
+    position: absolute;
+    width: 40px;
+    height: auto;
+    bottom: 10px;
+    right: 10px;
+  }
+  .results{
+    width: 100%;
   }
