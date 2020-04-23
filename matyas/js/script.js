@@ -39,10 +39,18 @@ function plus(t_id){
   }
 
   if (mezo[3]=='egs'){
-    if (mezo[1]=='jt')
-      mibol='';
-    if (mezo[1]=='falu')
-      mibol='jt_'+mezo[2]+'_egs';
+    if (mezo[1]=='jt'){
+      if (mezo[2]=='arany')
+        mibol='jt_norm_egs';
+      else
+        mibol='';
+    }
+    if (mezo[1]=='falu'){
+      if (mezo[2]=='arany')
+        mibol='falu_norm_egs';
+      else
+        mibol='jt_'+mezo[2]+'_egs';
+    }
     if (mezo[1]=='var')
       mibol='falu_'+mezo[2]+'_egs';
     mit=mezo[1]+'_'+mezo[2]+'_egs';
