@@ -95,7 +95,6 @@ function frissit(mezo){
   //   console.log(ja);
   // });
 
-  ertek = $('#'+mezo[0]+'_'+mezo[1]+'_'+mezo[2]+'_'+mezo[3]).text();
   for (i=0;i<telepulesek.length;i++){
     if(i<2)
       termeny += ($('#'+mezo[0]+'_'+telepulesek[i]+'_norm_egs').text())*telepulesek_szorzo[i];
@@ -107,9 +106,61 @@ function frissit(mezo){
   
   $('#'+mezo[0]+'_termeny').text(termeny);
   $('#'+mezo[0]+'_arany').text(arany);
+  kiment();
+}
+function kiment(){
+  var adatok='[';
+
+  for (j=0;j<jatekosok.length;j++){
+    adatok +='[';
+    for (t=0;t<telepulesek.length;t++){
+      adatok +='[';
+      for (te=0;te<termeles.length;te++){
+        adatok +='[';
+        for (a=0;a<allapot.length;a++){
+          adatok +='[';
+          adatok += $('#'+jatekosok[j]+'_'+telepulesek[t]+'_'+termeles[te]+'_'+allapot[a]).text();
+          adatok +='],';
+        }
+        adatok=adatok.substring(0, adatok.length - 1); 
+        adatok +='],';
+      }
+      
+      adatok=adatok.substring(0, adatok.length - 1); 
+      adatok +='],';
+    }
+    adatok=adatok.substring(0, adatok.length - 1); 
+    adatok +='],';
+  }
+  
+  adatok=adatok.substring(0, adatok.length - 1); 
+  adatok+=']';
+
+  // console.log( adatok);
+  
+  //console.log(JSON.parse( adatok));
+  localStorage.matyas_adatok = adatok;
+}
+function betolt(){
+  var adatok = JSON.parse(localStorage.matyas_adatok);
+
+  for (j=0;j<jatekosok.length;j++){
+    for (t=0;t<telepulesek.length;t++){
+      for (te=0;te<termeles.length;te++){
+        for (a=0;a<allapot.length;a++){
+          $('#'+jatekosok[j]+'_'+telepulesek[t]+'_'+termeles[te]+'_'+allapot[a]).text(adatok[j][t][te][a] );
+        }
+      }
+    }
+  }
 }
 
-// $('#defaultOpen').click();
+var r = confirm("Folytatod az előző játékot?");
+if (r == true) {
+  betolt();
+} 
+
+
 document.getElementById('defaultOpen').click();
 $('.plus').click(function (e) { 
   plus(e);
