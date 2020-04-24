@@ -46,7 +46,7 @@ function plus(t_id){
         mibol='';
     }
     if (mezo[1]=='falu'){
-      if (mezo[2]=='arany')
+      if (mezo[2]=='arany' && ($('#'+mezo[0]+'_falu_arany_egs').text()==0))
         mibol='falu_norm_egs';
       else
         mibol='jt_'+mezo[2]+'_egs';
