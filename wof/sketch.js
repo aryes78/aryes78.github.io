@@ -43,7 +43,7 @@ function onFinished(winner) {
  */
 function onStarted (ivme) {
   console.log("stared");
-  whosGonnaWin(ivme, 0.001, pies, angle);
+  whosGonnaWin(ivme, 0.002, pies, angle);
 }
 /**
  * 
@@ -152,7 +152,7 @@ function draw() {
   triangle(0, -180, -10,-240, 10, -240);
 
   // decrement the acceleration every loop to make wheel stop.
-  ivme -= 0.005;
+  ivme -= 0.002;
 
   // if the acceleration is smaller then 1, we must to break the loop.
   if (ivme <= 0) {
