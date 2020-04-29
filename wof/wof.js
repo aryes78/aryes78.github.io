@@ -106,13 +106,11 @@ function doubleClicked() {
   spin();
 }
 
-function preload() {
-  ism = loadImage('ism.png');
-  kulcs = loadImage('kulcs.png');
-}
 function setup() {
   createCanvas(720, 600);
   
+  ism = loadImage('ism.png');
+  kulcs = loadImage('kulcs.png');
   
         console.log(ism);
         console.log(kulcs);
@@ -231,16 +229,18 @@ function Pie(order, a, r, g, b) {
       //console.log(this);
       if (this.t=='    \uD834\uDD06 \uD834\uDD07')
       {
-        image(ism, 80, 50);
+        image(ism, 100, (-angle/2), 45, 55);
       }
       else if (this.t=='    \uD834\uDD21')
       {
-        image(kulcs, 160, 50);
+        image(kulcs, 100, (-angle/2), 50, 50);
         
       }
-      text(this.t, 80, (-angle/2)+10, 150, tsize*2);
+      else
+        {
+          text(this.t, 80, (-angle/2)+10, 150, tsize*2);
+        }
 
       pop();
     }
 }
-
