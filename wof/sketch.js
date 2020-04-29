@@ -11,11 +11,13 @@
  * angle: her bir dilimin, bir kenarı ile diğer kenarı arasındaki iç açısı
  */
 
-let count = 10;
+let count = 8;
 let angle = 360 / count;
 ivme = 0;
-tsize = 20;
+tsize = 30;
 pies = [];
+mezok = ['5','10','𝄆 𝄇','5','15','10','20','𝄡'];
+pontszam = ['5 pont','10 pont','Dupla pontszám!','5 pont','15 pont','10 pont','20 pont','-5 pont, ha nem tudod a választ!'];
 
 /**
  * 
@@ -26,10 +28,12 @@ pies = [];
 function onFinished(winner) {
   console.log("winner -> ", winner);
   fill(0);
-  rect(150, -280, 200, 50);
+  rect(150, -280, 200, 100);
   fill(255);
-  textSize(32);
-  text(winner.t, 150 + 10,-280 + 8, 200, 100);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(pontszam[winner.orderPerm], 150 + 10,-280 + 8, 200, 100);
+  textAlign(LEFT, BASELINE);
 }
 /**
  * 
@@ -86,7 +90,7 @@ function spin () {
       message: "Zaten Dönüyor."
     };
   }
-  ivme = (random(4)+1) / 10;
+  ivme = (random(3)+1.5) / 10;
   loop();
   onStarted(ivme);
   return true;
@@ -109,12 +113,12 @@ function setup() {
    * +1 means, we don't want to get 0 from the random func.
    * 4 can be changed. Its for speed.
    */
-  ivme = (random(4)+1) / 10;
+  ivme = (random(3)+1.5) / 10;
   for (i = 0; i < count; i++){
     /**
      * We create our pies
      */
-    pies.push(new Pie(i, "Parca " + (i), random(255), random(255), random(255)));
+    pies.push(new Pie(i, "    " + mezok[i], random(200), random(200), random(200)));
   }
 }
 
@@ -148,7 +152,7 @@ function draw() {
   triangle(0, -180, -10,-240, 10, -240);
 
   // decrement the acceleration every loop to make wheel stop.
-  ivme -= 0.001;
+  ivme -= 0.005;
 
   // if the acceleration is smaller then 1, we must to break the loop.
   if (ivme <= 0) {
@@ -211,7 +215,7 @@ function Pie(order, a, r, g, b) {
       fill(255);
       textSize(tsize);
       rotate((this.order)*angle + angle/2);
-      text(this.t, 80, -angle/2, 200, tsize*2);
+      text(this.t, 80, (-angle/2)+10, 150, tsize*2);
       pop();
     }
 }
