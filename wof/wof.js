@@ -233,7 +233,7 @@ function Pie(order, a, r, g, b) {
       }
       else if (this.t=='    \uD834\uDD21')
       {
-        image(kulcs, 100, (-angle/2), 43, 33);
+        image(kulcs, 100, (-angle/2), 45, 55);
         
       }
       else
