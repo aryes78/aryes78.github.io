@@ -16,7 +16,7 @@ let angle = 360 / count;
 ivme = 0;
 tsize = 30;
 pies = [];
-mezok = ['5','10','𝄆 𝄇','5','15','10','20','𝄡'];
+mezok = ['5','10',"\uD834\uDD06 \uD834\uDD07",'5','15','10','20',"\uD834\uDD21"];
 pontszam = ['5 pont','10 pont','Dupla pontszám!','5 pont','15 pont','10 pont','20 pont','-5 pont, ha nem tudod a választ!'];
 
 /**
