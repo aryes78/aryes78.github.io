@@ -17,8 +17,13 @@ ivme = 0;
 tsize = 30;
 pies = [];
 mezok = ['5','10',"\uD834\uDD06 \uD834\uDD07",'5','15','10','20',"\uD834\uDD21"];
+//mezok = ['5','10','i1','5','15','10','20','i2'];
 pontszam = ['5 pont','10 pont','Dupla pontszám!','5 pont','15 pont','10 pont','20 pont','-5 pont, ha nem tudod a választ!'];
+/*
+let ism;
+let kulcs;
 
+*/
 /**
  * 
  * @param {Pie} winner 
@@ -101,8 +106,16 @@ function doubleClicked() {
   spin();
 }
 
+function preload() {
+  ism = loadImage('ism.png');
+  kulcs = loadImage('kulcs.png');
+}
 function setup() {
   createCanvas(720, 600);
+  
+  
+        console.log(ism);
+        console.log(kulcs);
   /**
    * To rotate things by using degrees.
    */
@@ -215,7 +228,18 @@ function Pie(order, a, r, g, b) {
       fill(255);
       textSize(tsize);
       rotate((this.order)*angle + angle/2);
+      //console.log(this);
+      if (this.t=='    \uD834\uDD06 \uD834\uDD07')
+      {
+        image(ism, 80, 50);
+      }
+      else if (this.t=='    \uD834\uDD21')
+      {
+        image(kulcs, 160, 50);
+        
+      }
       text(this.t, 80, (-angle/2)+10, 150, tsize*2);
+
       pop();
     }
 }
