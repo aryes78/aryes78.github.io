@@ -10,9 +10,10 @@
  * count: dilim sayısı
  * angle: her bir dilimin, bir kenarı ile diğer kenarı arasındaki iç açısı
  */
-
+let noise, env, analyzer;
 let count = 8;
 let angle = 360 / count;
+let fordulat = 0;
 ivme = 0;
 tsize = 30;
 pies = [];
@@ -112,8 +113,15 @@ function setup() {
   ism = loadImage('ism.png');
   kulcs = loadImage('kulcs.png');
   
-        console.log(ism);
-        console.log(kulcs);
+  noise = new p5.Noise(); // other types include 'brown' and 'pink'
+  noise.start();
+  noise.amp(0);
+  
+  env = new p5.Env();
+  env.setADSR(0.001, 0.01, 1, 0.1);
+  // set attackLevel, releaseLevel
+  env.setRange(1, 0);
+  
   /**
    * To rotate things by using degrees.
    */
@@ -198,6 +206,7 @@ function Pie(order, a, r, g, b) {
     this.r = r;
     this.g = g;
     this.b = b;
+    this.previousPos=0;
 
     /**
      * Spinning.
@@ -213,6 +222,11 @@ function Pie(order, a, r, g, b) {
       push();
       fill(this.r, this.g, this.b);
       newAngle = this.order*angle;
+      //console.log(Math.round(pies[i].order*angle)%360<angle);
+      if(Math.round(newAngle)%360<this.previousPos){
+      env.play(noise);
+      }
+      this.previousPos=Math.round(newAngle)%360;
       arc(0, 0, 400, 400, newAngle, newAngle+angle);
       this.aralik = [newAngle, newAngle+angle];
       pop();
@@ -226,7 +240,6 @@ function Pie(order, a, r, g, b) {
       fill(255);
       textSize(tsize);
       rotate((this.order)*angle + angle/2);
-      //console.log(this);
       if (this.t=='    \uD834\uDD06 \uD834\uDD07')
       {
         image(ism, 100, (-angle/2), 45, 55);
