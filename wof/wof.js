@@ -118,7 +118,8 @@ function setup() {
   noise.amp(0);
   
   env = new p5.Env();
-  env.setADSR(0.001, 0.05, 1, 0.05);
+  //env.setADSR(0.001, 0.05, 1, 0.05);
+  env.setADSR(0.001, 0.1, 0.2, 0.1);
   // set attackLevel, releaseLevel
   env.setRange(1, 0);
   
