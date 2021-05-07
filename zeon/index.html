@@ -24,24 +24,44 @@
             padding: 5px;
             border: 1px solid #ccc;
         }
+        img
+        {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <input type="file" id="fileUpload" />
-    <input type="button" id="upload" value="Feltöltés" onclick="Upload()" />
+    <input type="button" id="upload" value="Feltöltés" onclick="Upload();" />
     <hr />
-    <div>
+    <div id="data">
     <input type="button" id="download" value="CSV letöltése" onclick="Download()" />
-    <hr />
+    <br>
+    <div id="torles" style="display: block;">
+    <br>
+    <br></div>
+    <br>
     </div>
+    <hr />
     <div id="dvExcel">
     </div>
     <script type="text/javascript" src="./xlsx.full.min.js"></script>
     <script type="text/javascript" src="./jszip.js"></script>
+    <script type="text/javascript" src="./spin.js"></script>
+    <script type="text/javascript" src="./jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./FileSaver.min.js"></script>
     <script type="text/javascript">
         var exportData;
-      
+        var excelData;
+        let spinner;
+        
+        let _target = document.getElementById('data');
+        function  _workstart () { 
+          spinner = new Spinner().spin(_target);
+        }
+        function _workend() { 
+          spinner.stop(); 
+        }
         /* generate a download */
         function s2ab(s) { 
           var buf = ""; 
@@ -50,8 +70,7 @@
               //Add the data row.
                delimiter = '';
                for ([key, value] of Object.entries(s[i])) {
-                if (value)
-                  buf += delimiter + value;
+                buf += delimiter + value;
                 delimiter=';';
               }
                buf +=  "\r\n";
@@ -68,6 +87,7 @@
         }
 
         function Upload() {
+          spinner = new Spinner().spin(_target);
             //Reference the FileUpload element.
             var fileUpload = document.getElementById("fileUpload");
 
@@ -80,7 +100,18 @@
                     //For Browsers other than IE.
                     if (reader.readAsBinaryString) {
                         reader.onload = function (e) {
-                            ProcessExcel(e.target.result);
+                            var workbook = XLSX.read(e.target.result, {
+                                type: 'binary'
+                            });
+
+                            //Fetch the name of First Sheet.
+                            var firstSheet = workbook.SheetNames[0];
+                            //alert (firstSheet);
+
+                            //Read all rows from First Sheet into an JSON array.  
+                            excelData = workbook.Sheets[firstSheet];
+
+                            ProcessExcel();
                         };
                         reader.readAsBinaryString(fileUpload.files[0]);
                     } else {
@@ -91,7 +122,18 @@
                             for (var i = 0; i < bytes.byteLength; i++) {
                                 data += String.fromCharCode(bytes[i]);
                             }
-                            ProcessExcel(data);
+                            var workbook = XLSX.read(data, {
+                                type: 'binary'
+                            });
+
+                            //Fetch the name of First Sheet.
+                            var firstSheet = workbook.SheetNames[0];
+                            //alert (firstSheet);
+
+                            //Read all rows from First Sheet into an JSON array.  
+                            excelData = workbook.Sheets[firstSheet];
+
+                            ProcessExcel();
                         };
                         reader.readAsArrayBuffer(fileUpload.files[0]);
                     }
@@ -101,34 +143,200 @@
             } else {
                 alert("Please upload a valid Excel file.");
             }
+            
         };
         function nextChar(c) {
           return String.fromCharCode(c.charCodeAt(0) + 1);
         }
-        function ProcessExcel(data) {
+        function deleteRow (row){
+
+          spinner = new Spinner().spin(_target);
+          $("#dvExcel").html("");
+          if (confirm("Valóban töröljem?"))
+            delete_rows(excelData,row,1);
+          ProcessExcel();
+
+        }
+        function deleteCol (col){
+          spinner = new Spinner().spin(_target);
+          $("#dvExcel").html("");
+          if (confirm("Valóban töröljem?"))
+            delete_cols(excelData,col,1);
+          ProcessExcel();
+        }
+        function clamp_range(range) {
+          if(range.e.r >= (1<<20)) range.e.r = (1<<20)-1;
+          if(range.e.c >= (1<<14)) range.e.c = (1<<14)-1;
+          return range;
+        }
+        function delete_rows(ws, start_row, nrows) {
+          if(!ws) throw new Error("operation expects a worksheet");
+          var dense = Array.isArray(ws);
+          if(!nrows) nrows = 1;
+          if(!start_row) start_row = 0;
+
+          /* extract original range */
+          var range = XLSX.utils.decode_range(ws["!ref"]);
+          var R = 0, C = 0;
+
+          var formula_cb = function($0, $1, $2, $3, $4, $5) {
+            var _R = XLSX.utils.decode_row($5), _C = XLSX.utils.decode_col($3);
+            if(_R >= start_row) {
+              _R -= nrows;
+              if(_R < start_row) return "#REF!";
+            }
+            return $1+($2=="$" ? $2+$3 : XLSX.utils.encode_col(_C))+($4=="$" ? $4+$5 : XLSX.utils.encode_row(_R));
+          };
+
+          var addr, naddr;
+          /* move cells and update formulae */
+          if(dense) {
+            for(R = start_row + nrows; R <= range.e.r; ++R) {
+              if(ws[R]) ws[R].forEach(function(cell) { cell.f = cell.f.replace(crefregex, formula_cb); });
+              ws[R-nrows] = ws[R];
+            }
+            ws.length -= nrows;
+            for(R = 0; R < start_row; ++R) {
+              if(ws[R]) ws[R].forEach(function(cell) { cell.f = cell.f.replace(crefregex, formula_cb); });
+            }
+          } else {
+            for(R = start_row + nrows; R <= range.e.r; ++R) {
+              for(C = range.s.c; C <= range.e.c; ++C) {
+                addr = XLSX.utils.encode_cell({r:R, c:C});
+                naddr = XLSX.utils.encode_cell({r:R-nrows, c:C});
+                if(!ws[addr]) { delete ws[naddr]; continue; }
+                if(ws[addr].f) ws[addr].f = ws[addr].f.replace(crefregex, formula_cb);
+                ws[naddr] = ws[addr];
+              }
+            }
+            for(R = range.e.r; R > range.e.r - nrows; --R) {
+              for(C = range.s.c; C <= range.e.c; ++C) {
+                addr = XLSX.utils.encode_cell({r:R, c:C});
+                delete ws[addr];
+              }
+            }
+            for(R = 0; R < start_row; ++R) {
+              for(C = range.s.c; C <= range.e.c; ++C) {
+                addr = XLSX.utils.encode_cell({r:R, c:C});
+                if(ws[addr] && ws[addr].f) ws[addr].f = ws[addr].f.replace(crefregex, formula_cb);
+              }
+            }
+          }
+
+          /* write new range */
+          range.e.r -= nrows;
+          if(range.e.r < range.s.r) range.e.r = range.s.r;
+          ws["!ref"] = XLSX.utils.encode_range(clamp_range(range));
+
+          /* merge cells */
+          if(ws["!merges"]) ws["!merges"].forEach(function(merge, idx) {
+            var mergerange;
+            switch(typeof merge) {
+              case 'string': mergerange = XLSX.utils.decode_range(merge); break;
+              case 'object': mergerange = merge; break;
+              default: throw new Error("Unexpected merge ref " + merge);
+            }
+            if(mergerange.s.r >= start_row) {
+              mergerange.s.r = Math.max(mergerange.s.r - nrows, start_row);
+              if(mergerange.e.r < start_row + nrows) { delete ws["!merges"][idx]; return; }
+            } else if(mergerange.e.r >= start_row) mergerange.e.r = Math.max(mergerange.e.r - nrows, start_row);
+            clamp_range(mergerange);
+            ws["!merges"][idx] = mergerange;
+          });
+          if(ws["!merges"]) ws["!merges"] = ws["!merges"].filter(function(x) { return !!x; });
+
+          /* rows */
+          if(ws["!rows"]) ws["!rows"].splice(start_row, nrows);
+        }        
+        function delete_cols(ws, start_col, ncols) {
+          if(!ws) throw new Error("operation expects a worksheet");
+          var dense = Array.isArray(ws);
+          if(!ncols) ncols = 1;
+          if(!start_col) start_col = 0;
+
+          /* extract original range */
+          var range = XLSX.utils.decode_range(ws["!ref"]);
+          var R = 0, C = 0;
+
+          var formula_cb = function($0, $1, $2, $3, $4, $5) {
+            var _R = XLSX.utils.decode_row($5), _C = XLSX.utils.decode_col($3);
+            if(_C >= start_col) {
+              _C -= ncols;
+              if(_C < start_col) return "#REF!";
+            }
+            return $1+($2=="$" ? $2+$3 : XLSX.utils.encode_col(_C))+($4=="$" ? $4+$5 : XLSX.utils.encode_row(_R));
+          };
+
+          var addr, naddr;
+          for(C = start_col + ncols; C <= range.e.c; ++C) {
+            for(R = range.s.r; R <= range.e.r; ++R) {
+              addr = XLSX.utils.encode_cell({r:R, c:C});
+              naddr = XLSX.utils.encode_cell({r:R, c:C - ncols});
+              if(!ws[addr]) { delete ws[naddr]; continue; }
+              if(ws[addr].f) ws[addr].f = ws[addr].f.replace(crefregex, formula_cb);
+              ws[naddr] = ws[addr];
+            }
+          }
+          for(C = range.e.c; C > range.e.c - ncols; --C) {
+            for(R = range.s.r; R <= range.e.r; ++R) {
+              addr = XLSX.utils.encode_cell({r:R, c:C});
+              delete ws[addr];
+            }
+          }
+          for(C = 0; C < start_col; ++C) {
+            for(R = range.s.r; R <= range.e.r; ++R) {
+              addr = XLSX.utils.encode_cell({r:R, c:C});
+              if(ws[addr] && ws[addr].f) ws[addr].f = ws[addr].f.replace(crefregex, formula_cb);
+            }
+          }
+
+          /* write new range */
+          range.e.c -= ncols;
+          if(range.e.c < range.s.c) range.e.c = range.s.c;
+          ws["!ref"] = XLSX.utils.encode_range(clamp_range(range));
+
+          /* merge cells */
+          if(ws["!merges"]) ws["!merges"].forEach(function(merge, idx) {
+            var mergerange;
+            switch(typeof merge) {
+              case 'string': mergerange = XLSX.utils.decode_range(merge); break;
+              case 'object': mergerange = merge; break;
+              default: throw new Error("Unexpected merge ref " + merge);
+            }
+            if(mergerange.s.c >= start_col) {
+              mergerange.s.c = Math.max(mergerange.s.c - ncols, start_col);
+              if(mergerange.e.c < start_col + ncols) { delete ws["!merges"][idx]; return; }
+              mergerange.e.c -= ncols;
+              if(mergerange.e.c < mergerange.s.c) { delete ws["!merges"][idx]; return; }
+            } else if(mergerange.e.c >= start_col) mergerange.e.c = Math.max(mergerange.e.c - ncols, start_col);
+            clamp_range(mergerange);
+            ws["!merges"][idx] = mergerange;
+          });
+          if(ws["!merges"]) ws["!merges"] = ws["!merges"].filter(function(x) { return !!x; });
+
+          /* cols */
+          if(ws["!cols"]) ws["!cols"].splice(start_col, ncols);
+        }
+        function ProcessExcel() {
+          
+          //spinner = new Spinner().spin(_target);
             //Read the Excel File data.
-            var workbook = XLSX.read(data, {
-                type: 'binary'
-            });
-
-            //Fetch the name of First Sheet.
-            var firstSheet = workbook.SheetNames[0];
-            //alert (firstSheet);
-
-            //Read all rows from First Sheet into an JSON array.
-            var excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], {header:1, raw:true, cellDates:true});
+            //delete_cols(excelData,0,1);
+            var excelRows = XLSX.utils.sheet_to_json(excelData, {header:1, raw:true, cellDates:true});
             exportData = excelRows;
             //alert("Kész");
-            //console.log(JSON.stringify(excelRows));
+            //console.log(JSON.stringify(workbook.Sheets[firstSheet]));
 
             //Create a HTML Table element.
             var table = document.createElement("table");
             table.border = "1";
+            table.id="myTable";
 
             var cells=Object.keys(excelRows[0]);
             //Add the header row.
             var row = table.insertRow(-1);
             var oszlop = 'A';
+            var oszlopCount=0;
 
             var headerCell = document.createElement("TH");
             headerCell.innerHTML = ' ';
@@ -137,8 +345,9 @@
             for (cella of cells){
               //Add the header cells.
               var headerCell = document.createElement("TH");
-              headerCell.innerHTML = oszlop;
+              headerCell.innerHTML = oszlop +' <img src="x.png" alt="x" onclick="deleteCol('+(oszlopCount)+');"/>';
               oszlop = oszlop=='Z'?'A':nextChar(oszlop);
+              oszlopCount ++;
               row.appendChild(headerCell);
 
             }
@@ -149,7 +358,7 @@
               var row = table.insertRow(-1);
               
               var cell = row.insertCell(-1);
-              cell.innerHTML = i+1;
+              cell.innerHTML = (i+1) +' <img src="x.png" alt="x" onclick="deleteRow('+(i)+');"/>';
                for ([key, value] of Object.entries(excelRows[i])) {
                 //Add the data cells.
                 var cell = row.insertCell(-1);
@@ -160,6 +369,8 @@
             var dvExcel = document.getElementById("dvExcel");
             dvExcel.innerHTML = "";
             dvExcel.appendChild(table);
+
+          spinner.stop(); 
         };
     </script>
 </body>
