@@ -45,13 +45,17 @@
         /* generate a download */
         function s2ab(s) { 
           var buf = ""; 
+          var delimiter='';
             for (var i = 0; i < s.length; i++) {
               //Add the data row.
+               delimiter = '';
                for ([key, value] of Object.entries(s[i])) {
                 if (value)
-                  buf += value + ';';
+                  buf += delimiter + value;
+                delimiter=';';
               }
                buf +=  "\r\n";
+               delimiter='';
             }
           return buf;    
         }
