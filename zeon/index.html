@@ -35,9 +35,9 @@
     <input type="button" id="upload" value="Feltöltés" onclick="Upload();" />
     <hr />
     <div id="data">
-    <input type="button" id="download" value="CSV letöltése" onclick="Download()" />
+    <input type="button" id="delete" value="Kijelölt sorok és oszlopok törlése" onclick="deleteChecked()" />
     <br>
-    <div id="torles" style="display: block;">
+    <input type="button" id="download" value="CSV letöltése" onclick="Download()" />
     <br>
     <br></div>
     <br>
@@ -53,8 +53,13 @@
     <script type="text/javascript">
         var exportData;
         var excelData;
+        var rowsEmpty = [];
+        var eachRows = [];
+        var eachCols = [];
         let spinner;
         
+
+
         let _target = document.getElementById('data');
         function  _workstart () { 
           spinner = new Spinner().spin(_target);
@@ -163,6 +168,42 @@
           if (confirm("Valóban töröljem?"))
             delete_cols(excelData,col,1);
           ProcessExcel();
+        }
+        
+        function deleteEmpty(){
+          spinner = new Spinner().spin(_target);
+          $("#dvExcel").html("");
+          if (confirm("Valóban töröljem?"))
+            for (var i=rowsEmpty.length-1; i>=0 ;i--){
+              if (rowsEmpty[i]==0)
+                delete_cols(excelData,i,1);
+            }
+          ProcessExcel();
+        }
+        function deleteChecked (){
+          eachCols=[];
+          eachRows=[];
+          $("input:checkbox[name=cols]:checked").each(function(){
+          eachCols.push($(this).val());
+          });
+          $("input:checkbox[name=rows]:checked").each(function(){
+            eachRows.push($(this).val());
+          });
+          console.log(JSON.stringify(eachCols));
+          console.log(JSON.stringify(eachRows));
+          spinner = new Spinner().spin(_target);
+          $("#dvExcel").html("");
+          if (confirm("Valóban töröljem?")){
+            for (var i=eachRows.length-1; i>=0 ;i--){
+                delete_rows(excelData,Number(eachRows[i]),1);
+                
+            }
+            for (var i=eachCols.length-1; i>=0 ;i--){
+                delete_cols(excelData,Number(eachCols[i]),1);
+            }
+          }
+          ProcessExcel();
+
         }
         function clamp_range(range) {
           if(range.e.r >= (1<<20)) range.e.r = (1<<20)-1;
@@ -324,6 +365,7 @@
             //delete_cols(excelData,0,1);
             var excelRows = XLSX.utils.sheet_to_json(excelData, {header:1, raw:true, cellDates:true});
             exportData = excelRows;
+            rowsEmpty =[];
             //alert("Kész");
             //console.log(JSON.stringify(workbook.Sheets[firstSheet]));
 
@@ -334,23 +376,14 @@
 
             var cells=Object.keys(excelRows[0]);
             //Add the header row.
-            var row = table.insertRow(-1);
+            var headerRow = table.insertRow(-1);
             var oszlop = 'A';
             var oszlopCount=0;
 
             var headerCell = document.createElement("TH");
             headerCell.innerHTML = ' ';
-            row.appendChild(headerCell);
-            
-            for (cella of cells){
-              //Add the header cells.
-              var headerCell = document.createElement("TH");
-              headerCell.innerHTML = oszlop +' <img src="x.png" alt="x" onclick="deleteCol('+(oszlopCount)+');"/>';
-              oszlop = oszlop=='Z'?'A':nextChar(oszlop);
-              oszlopCount ++;
-              row.appendChild(headerCell);
+            headerRow.appendChild(headerCell);
 
-            }
 
             //Add the data rows from Excel file.
             for (var i = 0; i < excelRows.length; i++) {
@@ -358,17 +391,34 @@
               var row = table.insertRow(-1);
               
               var cell = row.insertCell(-1);
-              cell.innerHTML = (i+1) +' <img src="x.png" alt="x" onclick="deleteRow('+(i)+');"/>';
+              var c = 0;
+              cell.innerHTML = (i+1) +' <input type="checkbox" name="rows" value="'+(i)+'">';
                for ([key, value] of Object.entries(excelRows[i])) {
                 //Add the data cells.
                 var cell = row.insertCell(-1);
                 cell.innerHTML = value;
+                if (typeof rowsEmpty[c] == "undefined")
+                  rowsEmpty[c]=0;
+                if (value) 
+                  rowsEmpty[c]+=1;
+                c++;
+
               }
+            }
+            
+            for (oszlopCount=0;oszlopCount<rowsEmpty.length;oszlopCount++ ){
+              //Add the header cells.
+              var headerCell = document.createElement("TH");
+              headerCell.innerHTML = oszlop +' <input type="checkbox" name="cols" value="'+(oszlopCount)+'">';
+              oszlop = oszlop=='Z'?'A':nextChar(oszlop);
+              headerRow.appendChild(headerCell);
+
             }
 
             var dvExcel = document.getElementById("dvExcel");
             dvExcel.innerHTML = "";
             dvExcel.appendChild(table);
+            console.log(JSON.stringify(rowsEmpty));
 
           spinner.stop(); 
         };
