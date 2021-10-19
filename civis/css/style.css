@@ -53,13 +53,6 @@ body{
   height: 500px;
 }
 
-.suto{
-  position: relative;
-  background-image: url('suto.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 500px;
-}
 .column{
 /*   width: 50%; */
   flex: 1 1 40%;
