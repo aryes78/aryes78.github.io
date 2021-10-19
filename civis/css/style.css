@@ -52,6 +52,9 @@ body{
   background-position: center;
   height: 500px;
 }
+.bio_img{
+  width: 100%;
+}
 
 .column{
 /*   width: 50%; */
