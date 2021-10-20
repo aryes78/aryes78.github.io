@@ -61,6 +61,23 @@ body{
   flex: 1 1 40%;
   margin: 20px 20px 0 0;
 }
+
+.doublecolumn_left{
+/*   width: 50%; */
+  flex: 1 80%;
+  margin: 20px 20px 0 0;
+}
+
+.doublecolumn_left h2{
+  position: relative;
+  right: 0px;
+}
+
+.doublecolumn_left .bio_img{
+  float: left;
+ padding: 0 10px 0 0;
+}
+
 img{
     object-fit: cover;
 }
