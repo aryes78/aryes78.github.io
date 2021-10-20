@@ -76,7 +76,7 @@ body{
 
 .doublecolumn_right .bio_img{
   float: right;
- padding: 0 0 10px 10px;
+ padding: 0 0 20px 20px;
 }
 
 
@@ -93,7 +93,7 @@ body{
 
 .doublecolumn_left .bio_img{
   float: left;
- padding: 0 10px 10px 0;
+ padding: 0 20px 20px 0;
 }
 
 img{
